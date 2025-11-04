@@ -1,55 +1,29 @@
-# Pecahan Seru — Web Latihan Gamifikasi (Tanpa Server)
+# Teks Prosedur — MVP (Urutkan Langkah)
 
-Sebuah web sederhana untuk microteaching topik: mengurutkan dan membandingkan pecahan. Berjalan **tanpa database, tanpa server** — cukup buka `index.html` di browser.
+Serverless, statis, dan offline-friendly. Cocok untuk microteaching.
 
-## Fitur Utama
-- Mode Bandingkan (pilih pecahan yang lebih besar) dan Urutkan (drag-and-drop dari kecil ke besar)
-- Visual beragam: Batang dan Lingkaran (pizza/kue) — bisa auto/acak, salah satu, atau keduanya
-- Skor, umpan balik instan, dan efek confetti saat benar
-- Streak/Combo (bonus poin saat beruntun benar), Challenge 60 detik, Timer per soal (opsional)
-- Mode Guru: atur jumlah soal, tampilkan hint/visual, pilih mode (bandingkan/urutkan/campur), pilih gaya visual, timer
-- Ekspor hasil ke `.csv` (lokal) untuk bahan refleksi kelas — tanpa menyimpan ke internet
-- Bahasa Indonesia, UI sederhana untuk guru dan siswa SD
+## Cara pakai
+- Buka `index.html` di browser (klik dua kali atau lewat Live Server/preview).
+- Beranda: pilih prosedur dari dropdown lalu klik "Mulai".
+- Seret langkah-langkah agar urut. Klik "Cek" untuk nilai. Semua benar → confetti.
+- Mode Guru: tambah prosedur (judul + langkah per baris), simpan ke localStorage.
+- Import/Export JSON: simpan/ambil bank prosedur.
+- Export CSV Hasil: unduh ringkasan percobaan (timestamp, prosedur, total, benar).
 
-## Cara Menjalankan
-1. Unduh folder ini ke komputer.
-2. Buka file `index.html` dengan klik dua kali (Chrome/Edge/Firefox).
-3. Di halaman beranda:
-   - Klik **Mulai Cepat** untuk campuran 10 soal.
-   - Klik **Pilih Level** untuk memilih tipe soal (termasuk Tantangan 60 detik).
-   - Klik **Mode Guru** untuk mengatur parameter (mode, jumlah, gaya visual, hint, desimal, timer).
+## Struktur
+- `index.html` — Halaman utama + 3 tampilan (Beranda, Game, Editor Guru).
+- `styles.css` — Gaya UI ringan, aksesibel.
+- `app.js` — Logika permainan, penyimpanan lokal, editor, ekspor.
+- `plan_prosedur_teks.md` — Rencana lengkap (MVP+Next) dan dependensi.
 
-Tidak perlu instalasi. Bisa digunakan **offline** (setelah file terbuka sekali).
+## Dependensi (CDN)
+- SortableJS — drag-and-drop urutan
+- canvas-confetti — efek kemenangan
 
-## Alur Microteaching (contoh 10–15 menit)
-1. Perkenalan tujuan (1 menit).
-2. Demo singkat 2 soal bandingkan + 1 soal urutkan (3 menit).
-3. Siswa mencoba 5 soal (5–8 menit). Dukung diskusi strategi saat review jawaban.
-4. Ringkasan skor dan 1–2 soal yang salah untuk refleksi (2–3 menit).
+Opsional untuk tahap berikutnya: Interact.js (matching), Fuse.js (pencarian), Howler.js (audio), Tippy.js (tooltip), Workbox (PWA).
 
-## Ekspor Hasil
-- Setelah selesai, tekan tombol **Unduh Hasil (.csv)**.
-- File berisi kolom: `index, tipe, item, jawaban_benar, jawaban_siswa, benar, waktu_ms`.
-- Dapat dibuka di Excel/Google Sheets.
+## Catatan Offline
+Aplikasi tidak memerlukan server. Untuk akses file langsung, sebagian browser membatasi fitur tertentu jika dibuka via `file://`. Jika ada isu, gunakan ekstensi Live Server atau jalankan HTTP sederhana.
 
-## Kustomisasi Cepat
-- Tambah bank soal di `app.js` pada konstanta `BANK`.
-- Ganti warna/ukuran UI di `styles.css`.
-- Ganti teks instruksi di `index.html`.
-
-## Ketergantungan (via CDN, aman untuk offline setelah cache)
-- [SortableJS](https://github.com/SortableJS/Sortable) — drag & drop list.
-- [canvas-confetti](https://github.com/catdad/canvas-confetti) — efek confetti.
-
-Keduanya di-load dari CDN jsDelivr. Jika koneksi terbatas, buka sekali untuk cache; setelah itu dapat bekerja offline (tergantung kebijakan cache browser).
-
-## Catatan Teknis
-- Tidak ada penyimpanan online. Data hasil hanya diunduh sebagai CSV.
-- Perbandingan pecahan memakai perbandingan numerik sederhana yang aman untuk denominátor kecil (SD). Untuk topik lebih lanjut, bisa ditingkatkan ke representasi rasional presisi tinggi.
-
-## Ide Pengembangan Lanjutan (opsional)
-- Tambahkan mode **number line** (seret pecahan ke posisi di garis bilangan).
-- Tambahkan **penjelasan langkah** otomatis (contoh menyamakan penyebut).
-- Tambahkan **PWA** ringan agar bisa terpasang seperti aplikasi dan offline penuh.
-
-Selamat mengajar! 🎉
+## Lisensi
+Materi pembelajaran buatan sendiri. Perpustakaan pihak ketiga mengikuti lisensi masing-masing.

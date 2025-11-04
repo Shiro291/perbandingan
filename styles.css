@@ -2,109 +2,72 @@
 html, body { height: 100%; }
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
   background: #f6f7fb;
   color: #222;
 }
 
 .app-header, .app-footer {
-  background: white;
-  border-bottom: 1px solid #e5e7eb;
+  background: #ffffff;
+  border-bottom: 1px solid #e6e8ef;
   padding: 12px 16px;
+}
+.app-footer { border-top: 1px solid #e6e8ef; border-bottom: none; text-align: center; }
+.app-header h1 { margin: 0; font-size: 20px; }
+.app-header nav { margin-top: 6px; }
+
+.link {
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  padding: 6px 10px;
+}
+.link:hover { text-decoration: underline; }
+
+.view { max-width: 880px; margin: 20px auto; padding: 0 12px; }
+.hidden { display: none; }
+
+.card { background: #fff; border: 1px solid #e6e8ef; border-radius: 10px; padding: 16px; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+.row { display: flex; flex-direction: column; gap: 6px; margin: 10px 0; }
+label { font-weight: 600; }
+select, input[type="text"], textarea { border: 1px solid #cfd3df; border-radius: 8px; padding: 8px; font-size: 14px; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px; }
+.primary { background: #2563eb; color: white; border: none; padding: 10px 14px; border-radius: 8px; cursor: pointer; }
+.primary:hover { background: #1e4ec9; }
+.secondary { background: #eef2ff; color: #1e3a8a; border: 1px solid #c7d2fe; padding: 10px 14px; border-radius: 8px; cursor: pointer; }
+.secondary:hover { background: #e0e7ff; }
+.hint { color: #666; margin-top: 8px; }
+
+.game-header { display: flex; justify-content: space-between; align-items: center; }
+#gameTitle { margin: 0; }
+#scoreBox { font-weight: 600; }
+
+.steps-list { list-style: decimal; padding-left: 24px; margin: 14px 0; }
+.steps-list li {
+  background: #fff;
+  border: 1px solid #dbe0ea;
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 8px 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 10px;
 }
-.app-footer { border-top: 1px solid #e5e7eb; border-bottom: 0; }
-
-h1 { font-size: 20px; margin: 0; }
-h2 { margin-top: 0; }
-
-main { padding: 16px; max-width: 960px; margin: 0 auto; }
-
-.screen { display: none; }
-.screen.active { display: block; }
-
-.card {
-  background: white;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 16px;
-  box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+.steps-list li .handle {
+  width: 20px; height: 20px; display: inline-flex; align-items: center; justify-content: center;
+  color: #64748b;
+  cursor: grab;
 }
+.steps-list li.correct { border-color: #22c55e; background: #ecfdf5; }
+.steps-list li.wrong { border-color: #ef4444; background: #fef2f2; }
 
-.actions { display: flex; gap: 8px; flex-wrap: wrap; }
-.level-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 10px; }
-.level { padding: 12px; border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; cursor: pointer; text-align: left; }
-.level:hover { background: #f3f4f6; }
-.level-accent { border-color: #f59e0b; background: #fff8e6; }
-.level-accent:hover { background: #fffbeb; }
+.feedback { min-height: 20px; margin-top: 8px; color: #333; }
 
-.btn {
-  appearance: none;
-  border: 1px solid #d1d5db;
-  background: #fff;
-  color: #111827;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-.btn:hover { background: #f3f4f6; }
-.btn:disabled { opacity: 0.6; cursor: not-allowed; }
-.btn-primary { background: #2563eb; border-color: #1d4ed8; color: white; }
-.btn-primary:hover { background: #1d4ed8; }
-.btn-outline { background: transparent; }
+.saved-list { padding-left: 18px; }
+.saved-list li { display: flex; gap: 8px; align-items: center; margin: 6px 0; }
+.saved-list .title { flex: 1; }
+.saved-list button { padding: 4px 8px; }
 
-.hud { display: flex; justify-content: space-between; margin: 8px 0 12px; }
-.game-card { min-height: 260px; }
-.game-actions { display: flex; gap: 8px; margin-top: 12px; }
-.feedback { min-height: 24px; }
-.streak { color: #16a34a; margin-left: 6px; font-weight: 600; }
-.timer { color: #ef4444; }
-
-.fraction-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
-.fraction-card { border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px; cursor: pointer; transition: transform .08s ease; }
-.fraction-card:hover { transform: translateY(-2px); }
-.fraction-card.selected { outline: 3px solid #2563eb; }
-
-.fraction-title { font-size: 18px; font-weight: 600; }
-.bar { position: relative; height: 20px; background: #f3f4f6; border-radius: 6px; overflow: hidden; margin-top: 8px; }
-.bar-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #4ade80); }
-.bar-label { font-size: 12px; color: #6b7280; margin-top: 4px; }
-
-/* Circle (pizza) visual */
-.pie-wrap { width: 96px; height: 96px; margin-top: 8px; }
-.pie { width: 96px; height: 96px; display: block; }
-.pie text { font-size: 10px; fill: #374151; }
-
-.sortable-list { list-style: none; padding: 0; margin: 0; }
-.sortable-item { border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; margin: 8px 0; background: #fff; display: flex; gap: 10px; align-items: center; }
-.handle { cursor: grab; color: #6b7280; }
-
-.info { color: #4b5563; }
-
-/* Dialog */
-dialog { border: none; border-radius: 12px; width: 520px; max-width: 95vw; }
-.teacher-form { display: grid; gap: 12px; }
-.teacher-form label { display: grid; gap: 6px; }
-.teacher-form label.inline { grid-template-columns: 20px 1fr; align-items: center; }
-.dialog-actions { display: flex; justify-content: end; gap: 8px; margin-top: 8px; }
-
-/* Accessibility helpers */
-:focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
-
-/* Fun animations */
-.shake { animation: shake .3s linear; }
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-3px); }
-  100% { transform: translateX(0); }
-}
-.pop { animation: pop .25s ease; }
-@keyframes pop {
-  0% { transform: scale(0.9); }
-  100% { transform: scale(1); }
-}
+.import input[type="file"] { display: inline-block; margin-left: 8px; }
