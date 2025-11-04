@@ -4,9 +4,10 @@ Sebuah web sederhana untuk microteaching topik: mengurutkan dan membandingkan pe
 
 ## Fitur Utama
 - Mode Bandingkan (pilih pecahan yang lebih besar) dan Urutkan (drag-and-drop dari kecil ke besar)
-- Visual batang pecahan otomatis (persentase)
+- Visual beragam: Batang dan Lingkaran (pizza/kue) — bisa auto/acak, salah satu, atau keduanya
 - Skor, umpan balik instan, dan efek confetti saat benar
-- Mode Guru: atur jumlah soal, tampilkan hint/visual, pilih mode (bandingkan/urutkan/campur)
+- Streak/Combo (bonus poin saat beruntun benar), Challenge 60 detik, Timer per soal (opsional)
+- Mode Guru: atur jumlah soal, tampilkan hint/visual, pilih mode (bandingkan/urutkan/campur), pilih gaya visual, timer
 - Ekspor hasil ke `.csv` (lokal) untuk bahan refleksi kelas — tanpa menyimpan ke internet
 - Bahasa Indonesia, UI sederhana untuk guru dan siswa SD
 
@@ -15,8 +16,8 @@ Sebuah web sederhana untuk microteaching topik: mengurutkan dan membandingkan pe
 2. Buka file `index.html` dengan klik dua kali (Chrome/Edge/Firefox).
 3. Di halaman beranda:
    - Klik **Mulai Cepat** untuk campuran 10 soal.
-   - Klik **Pilih Level** untuk memilih tipe soal.
-   - Klik **Mode Guru** untuk mengatur parameter.
+   - Klik **Pilih Level** untuk memilih tipe soal (termasuk Tantangan 60 detik).
+   - Klik **Mode Guru** untuk mengatur parameter (mode, jumlah, gaya visual, hint, desimal, timer).
 
 Tidak perlu instalasi. Bisa digunakan **offline** (setelah file terbuka sekali).
 

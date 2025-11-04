@@ -38,6 +38,8 @@ main { padding: 16px; max-width: 960px; margin: 0 auto; }
 .level-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 10px; }
 .level { padding: 12px; border: 1px solid #e5e7eb; border-radius: 10px; background: #fff; cursor: pointer; text-align: left; }
 .level:hover { background: #f3f4f6; }
+.level-accent { border-color: #f59e0b; background: #fff8e6; }
+.level-accent:hover { background: #fffbeb; }
 
 .btn {
   appearance: none;
@@ -58,6 +60,8 @@ main { padding: 16px; max-width: 960px; margin: 0 auto; }
 .game-card { min-height: 260px; }
 .game-actions { display: flex; gap: 8px; margin-top: 12px; }
 .feedback { min-height: 24px; }
+.streak { color: #16a34a; margin-left: 6px; font-weight: 600; }
+.timer { color: #ef4444; }
 
 .fraction-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
 .fraction-card { border: 1px solid #e5e7eb; border-radius: 10px; padding: 12px; cursor: pointer; transition: transform .08s ease; }
@@ -68,6 +72,11 @@ main { padding: 16px; max-width: 960px; margin: 0 auto; }
 .bar { position: relative; height: 20px; background: #f3f4f6; border-radius: 6px; overflow: hidden; margin-top: 8px; }
 .bar-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #4ade80); }
 .bar-label { font-size: 12px; color: #6b7280; margin-top: 4px; }
+
+/* Circle (pizza) visual */
+.pie-wrap { width: 96px; height: 96px; margin-top: 8px; }
+.pie { width: 96px; height: 96px; display: block; }
+.pie text { font-size: 10px; fill: #374151; }
 
 .sortable-list { list-style: none; padding: 0; margin: 0; }
 .sortable-item { border: 1px solid #e5e7eb; border-radius: 8px; padding: 10px; margin: 8px 0; background: #fff; display: flex; gap: 10px; align-items: center; }
@@ -84,3 +93,18 @@ dialog { border: none; border-radius: 12px; width: 520px; max-width: 95vw; }
 
 /* Accessibility helpers */
 :focus-visible { outline: 3px solid #93c5fd; outline-offset: 2px; }
+
+/* Fun animations */
+.shake { animation: shake .3s linear; }
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-3px); }
+  100% { transform: translateX(0); }
+}
+.pop { animation: pop .25s ease; }
+@keyframes pop {
+  0% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}

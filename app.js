@@ -5,13 +5,20 @@ const state = {
   mode: 'compare', // 'compare' | 'order' | 'mix'
   total: 10,
   showVisual: true,
+  visualStyle: 'auto', // 'auto' | 'bar' | 'circle' | 'both'
   showHints: true,
   includeDecimals: false,
   questions: [],
   index: 0,
   score: 0,
+  streak: 0,
   results: [],
   startedAt: 0,
+  timerPerQuestion: false,
+  challenge: false,
+  challengeEnd: 0,
+  timerSecs: 0,
+  timerHandle: null,
 };
 
 // DOM refs
@@ -32,11 +39,15 @@ const optCount = document.getElementById('optCount');
 const optVisual = document.getElementById('optVisual');
 const optHints = document.getElementById('optHints');
 const optDecimals = document.getElementById('optDecimals');
+const optVisualStyle = document.getElementById('optVisualStyle');
+const optTimer = document.getElementById('optTimer');
 const btnTeacherStart = document.getElementById('btnTeacherStart');
 
 const hudIndex = document.getElementById('hudIndex');
 const hudTotal = document.getElementById('hudTotal');
 const hudScore = document.getElementById('hudScore');
+const hudStreak = document.getElementById('hudStreak');
+const hudTimer = document.getElementById('hudTimer');
 const questionTitle = document.getElementById('questionTitle');
 const questionContainer = document.getElementById('questionContainer');
 const btnHint = document.getElementById('btnHint');
@@ -198,10 +209,15 @@ function fractionCardHTML(text){
   if (state.showVisual) {
     const {n,d} = toVisualParts(text);
     const percent = Math.max(0, Math.min(100, Math.round((n/d)*100)));
-    visual = `
+    const bar = `
       <div class="bar" aria-hidden="true"><div class="bar-fill" style="width:${percent}%"></div></div>
       <div class="bar-label">≈ ${percent}%</div>
     `;
+    const circle = pieSVG(n, d);
+    if (state.visualStyle === 'bar') visual = bar;
+    else if (state.visualStyle === 'circle') visual = circle;
+    else if (state.visualStyle === 'both') visual = circle + bar;
+    else visual = Math.random() < 0.5 ? bar : circle; // auto
   }
   return `
     <div class="fraction-card" data-value="${text}">
@@ -209,6 +225,28 @@ function fractionCardHTML(text){
       ${visual}
     </div>
   `;
+}
+
+// Build an SVG pie (pizza) with d slices, first n filled
+function pieSVG(n, d) {
+  n = Math.max(0, Math.min(n, d));
+  const size = 96, r = 45, cx = 48, cy = 48;
+  const slices = [];
+  for (let i = 0; i < d; i++) {
+    const start = (i / d) * 2 * Math.PI - Math.PI / 2;
+    const end = ((i + 1) / d) * 2 * Math.PI - Math.PI / 2;
+    const x1 = cx + r * Math.cos(start);
+    const y1 = cy + r * Math.sin(start);
+    const x2 = cx + r * Math.cos(end);
+    const y2 = cy + r * Math.sin(end);
+    const largeArc = (end - start) > Math.PI ? 1 : 0;
+    const path = `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} Z`;
+    const filled = i < n;
+    slices.push(`<path d="${path}" fill="${filled ? '#f97316' : '#fde68a'}" stroke="#f59e0b" stroke-width="1"/>`);
+  }
+  // Outline circle
+  const outline = `<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="#92400e" stroke-width="1.5" />`;
+  return `<div class="pie-wrap"><svg class="pie" viewBox="0 0 ${size} ${size}" aria-hidden="true">${slices.join('')}${outline}</svg></div>`;
 }
 
 function renderCompare(items){
@@ -225,6 +263,8 @@ function renderCompare(items){
       cards.forEach(c => c.classList.remove('selected'));
       card.classList.add('selected');
       questionContainer.dataset.choice = String(idx);
+      card.classList.add('pop');
+      setTimeout(()=>card.classList.remove('pop'), 250);
     });
   });
 }
@@ -255,6 +295,7 @@ function renderCurrentQuestion(){
   hudIndex.textContent = String(state.index + 1);
   hudTotal.textContent = String(state.questions.length);
   hudScore.textContent = String(state.score);
+  hudStreak.textContent = state.streak >= 2 ? `🔥 x${state.streak}` : '';
 
   const q = state.questions[state.index];
   if (!q) return;
@@ -266,6 +307,8 @@ function renderCurrentQuestion(){
     renderOrder(q.items);
     btnCheck.style.display = '';
   }
+  // Timer per soal
+  startQuestionTimer();
 }
 
 function correctOrder(items){
@@ -318,8 +361,21 @@ function setFeedback(ok, text){
   feedback.textContent = text;
   btnCheck.disabled = true;
   btnNext.disabled = false;
-  if (ok) state.score += 1;
+  if (ok) {
+    state.streak += 1;
+    let gained = 1;
+    if (state.streak >= 3) gained += 1; // bonus streak
+    state.score += gained;
+    hudStreak.textContent = state.streak >= 2 ? `🔥 x${state.streak}` : '';
+  } else {
+    state.streak = 0;
+    hudStreak.textContent = '';
+    questionContainer.classList.add('shake');
+    setTimeout(()=>questionContainer.classList.remove('shake'), 300);
+  }
   hudScore.textContent = String(state.score);
+  // Stop timer only for per-question timer. Challenge timer continues globally.
+  if (!state.challenge && state.timerPerQuestion) stopTimer();
 }
 
 function pushResult(row){
@@ -328,11 +384,19 @@ function pushResult(row){
 
 function fireConfetti(){
   if (typeof confetti !== 'function') return;
-  confetti({
-    particleCount: 80,
-    spread: 70,
-    origin: { y: 0.6 }
-  });
+  try {
+    const scalar = 1.5;
+    const pizza = confetti.shapeFromText({ text: '🍕', scalar });
+    confetti({
+      particleCount: 60,
+      spread: 70,
+      origin: { y: 0.6 },
+      shapes: [pizza],
+      scalar
+    });
+  } catch (e) {
+    confetti({ particleCount: 80, spread: 70, origin: { y: 0.6 } });
+  }
 }
 
 function hintFor(q){
@@ -381,10 +445,17 @@ function startGame(questions){
   state.questions = questions.slice(0, state.total);
   state.index = 0;
   state.score = 0;
+  state.streak = 0;
   state.results = [];
   hudTotal.textContent = String(state.questions.length);
   // Toggle hint button visibility per setting
   btnHint.style.display = state.showHints ? '' : 'none';
+  // Set up challenge end time if challenge
+  if (state.challenge) {
+    state.challengeEnd = Date.now() + 60_000;
+  } else {
+    state.challengeEnd = 0;
+  }
   showScreen('game');
   state.startedAt = Date.now();
   renderCurrentQuestion();
@@ -395,6 +466,36 @@ function showSummary(){
   finalTotal.textContent = String(state.questions.length);
   showScreen('result');
 }
+
+// Timer logic
+function startQuestionTimer(){
+  stopTimer();
+  if (!(state.timerPerQuestion || state.challenge)) { hudTimer.textContent = '—'; return; }
+  const perQuestion = !state.challenge && state.timerPerQuestion;
+  const start = Date.now();
+  state.timerSecs = perQuestion ? 10 : Math.ceil((state.challengeEnd - Date.now())/1000);
+  hudTimer.textContent = String(state.timerSecs);
+  state.timerHandle = setInterval(()=>{
+    const elapsed = Math.floor((Date.now() - start)/1000);
+    const remain = state.challenge
+      ? Math.ceil((state.challengeEnd - Date.now())/1000)
+      : (10 - elapsed);
+    state.timerSecs = remain;
+    hudTimer.textContent = remain >= 0 ? String(remain) : '0';
+    if (remain <= 0){
+      stopTimer();
+      if (state.challenge){
+        showSummary();
+      } else {
+        // Auto mark as wrong and proceed
+        feedback.textContent = 'Waktu habis. Coba soal berikutnya!';
+        state.streak = 0; hudStreak.textContent = '';
+        btnCheck.disabled = true; btnNext.disabled = false;
+      }
+    }
+  }, 200);
+}
+function stopTimer(){ if (state.timerHandle) { clearInterval(state.timerHandle); state.timerHandle = null; } }
 
 // Events
 btnHome.addEventListener('click', () => showScreen('home'));
@@ -407,9 +508,18 @@ btnQuickPlay.addEventListener('click', () => {
 btnChooseLevel.addEventListener('click', () => showScreen('levels'));
 levelButtons.forEach(btn => btn.addEventListener('click', () => {
   const level = btn.dataset.level;
-  const qs = buildQuestionsFromLevel(level);
-  state.total = qs.length;
-  startGame(qs);
+  if (level === 'challenge'){
+    state.challenge = true;
+    state.mode = 'mix';
+    state.total = 30; // large pool, time-limited
+    const qs = [...buildQuickQuestions(), ...buildQuickQuestions(), ...buildQuickQuestions()];
+    startGame(qs);
+  } else {
+    state.challenge = false;
+    const qs = buildQuestionsFromLevel(level);
+    state.total = qs.length;
+    startGame(qs);
+  }
 }));
 
 btnHint.addEventListener('click', () => {
@@ -438,8 +548,11 @@ btnTeacherStart.addEventListener('click', (e) => {
   state.mode = optMode.value;
   state.total = Number(optCount.value);
   state.showVisual = optVisual.checked;
+  state.visualStyle = optVisualStyle.value;
   state.showHints = optHints.checked;
   state.includeDecimals = optDecimals.checked;
+  state.timerPerQuestion = optTimer.checked;
+  state.challenge = false;
 
   let qs = [];
   if (state.mode === 'compare') qs = shuffle(BANK.compare).map(q => ({type:'compare', items:q.items, answer:q.larger}));

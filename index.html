@@ -46,6 +46,7 @@
           <button class="level" data-level="3">Level 3 — Penyebut Berbeda</button>
           <button class="level" data-level="4">Level 4 — Urutkan 3 Pecahan</button>
           <button class="level" data-level="5">Level 5 — Bilangan Campuran</button>
+          <button class="level level-accent" data-level="challenge">Level 6 — Tantangan 60 detik ⏱️</button>
         </div>
       </div>
     </section>
@@ -54,7 +55,8 @@
     <section id="screen-game" class="screen">
       <div class="hud">
         <div>Soal: <span id="hudIndex">1</span>/<span id="hudTotal">5</span></div>
-        <div>Skor: <span id="hudScore">0</span></div>
+        <div>Skor: <span id="hudScore">0</span> <span id="hudStreak" class="streak"></span></div>
+        <div class="timer">Waktu: <span id="hudTimer">—</span></div>
       </div>
 
       <div class="card game-card">
@@ -95,6 +97,15 @@
           </select>
         </label>
         <label>
+          Gaya Visual:
+          <select id="optVisualStyle">
+            <option value="auto" selected>Auto (acak)</option>
+            <option value="bar">Batang</option>
+            <option value="circle">Lingkaran (pizza/kue)</option>
+            <option value="both">Keduanya</option>
+          </select>
+        </label>
+        <label>
           Jumlah soal:
           <select id="optCount">
             <option>5</option>
@@ -110,6 +121,9 @@
         </label>
         <label class="inline">
           <input type="checkbox" id="optDecimals" /> Campur desimal (opsional)
+        </label>
+        <label class="inline">
+          <input type="checkbox" id="optTimer" /> Timer per soal (10 detik)
         </label>
         <menu class="dialog-actions">
           <button class="btn" value="cancel">Batal</button>
