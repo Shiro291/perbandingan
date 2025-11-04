@@ -42,10 +42,10 @@ const builtinProcedures = [
     ],
     match: {
       items: [
-        { id: 'air', label: 'Air', type: 'bahan' },
-        { id: 'pasta', label: 'Pasta gigi', type: 'bahan' },
-        { id: 'sikat', label: 'Sikat gigi', type: 'alat' },
-        { id: 'gelas', label: 'Gelas kumur', type: 'alat' }
+        { id: 'air', label: 'Air', type: 'bahan', emoji: '💧' },
+        { id: 'pasta', label: 'Pasta gigi', type: 'bahan', emoji: '🪥' },
+        { id: 'sikat', label: 'Sikat gigi', type: 'alat', emoji: '🪥' },
+        { id: 'gelas', label: 'Gelas kumur', type: 'alat', emoji: '🥤' }
       ],
       pairs: [
         { itemId: 'sikat', stepIndex: 1 },
@@ -77,7 +77,7 @@ const builtinProcedures = [
     ],
     match: {
       items: [
-        { id: 'kertas', label: 'Kertas A4', type: 'bahan' }
+        { id: 'kertas', label: 'Kertas A4', type: 'bahan', emoji: '📄' }
       ],
       pairs: [ { itemId: 'kertas', stepIndex: 0 } ]
     },
@@ -100,9 +100,9 @@ const builtinProcedures = [
     ],
     match: {
       items: [
-        { id: 'air2', label: 'Air', type: 'bahan' },
-        { id: 'sabun', label: 'Sabun', type: 'bahan' },
-        { id: 'tisu', label: 'Tisu', type: 'alat' }
+        { id: 'air2', label: 'Air', type: 'bahan', emoji: '💧' },
+        { id: 'sabun', label: 'Sabun', type: 'bahan', emoji: '🧼' },
+        { id: 'tisu', label: 'Tisu', type: 'alat', emoji: '🧻' }
       ],
       pairs: [
         { itemId: 'air2', stepIndex: 0 },
@@ -128,8 +128,8 @@ const builtinProcedures = [
     ],
     match: {
       items: [
-        { id: 'kabel', label: 'Kabel daya', type: 'alat' },
-        { id: 'mouse', label: 'Mouse', type: 'alat' }
+        { id: 'kabel', label: 'Kabel daya', type: 'alat', emoji: '🔌' },
+        { id: 'mouse', label: 'Mouse', type: 'alat', emoji: '🖱️' }
       ],
       pairs: [ { itemId: 'kabel', stepIndex: 0 } ]
     },
@@ -168,10 +168,10 @@ const builtinProcedures = [
     ],
     match: {
       items: [
-        { id: 'soda', label: 'Soda kue', type: 'bahan' },
-        { id: 'cuka', label: 'Cuka', type: 'bahan' },
-        { id: 'pewarna', label: 'Pewarna', type: 'bahan' },
-        { id: 'botol', label: 'Botol kecil', type: 'alat' }
+        { id: 'soda', label: 'Soda kue', type: 'bahan', emoji: '🧂' },
+        { id: 'cuka', label: 'Cuka', type: 'bahan', emoji: '🧪' },
+        { id: 'pewarna', label: 'Pewarna', type: 'bahan', emoji: '🎨' },
+        { id: 'botol', label: 'Botol kecil', type: 'alat', emoji: '🧴' }
       ],
       pairs: [
         { itemId: 'botol', stepIndex: 0 },
@@ -192,9 +192,9 @@ const builtinProcedures = [
     ],
     match: {
       items: [
-        { id: 'sapu', label: 'Sapu', type: 'alat' },
-        { id: 'pengki', label: 'Pengki', type: 'alat' },
-        { id: 'tempat', label: 'Tempat sampah', type: 'alat' }
+        { id: 'sapu', label: 'Sapu', type: 'alat', emoji: '🧹' },
+        { id: 'pengki', label: 'Pengki', type: 'alat', emoji: '🧹' },
+        { id: 'tempat', label: 'Tempat sampah', type: 'alat', emoji: '🗑️' }
       ],
       pairs: [
         { itemId: 'sapu', stepIndex: 1 },
@@ -335,6 +335,8 @@ renderHome();
 attachNav();
 attachGameHandlers();
 attachEditorHandlers();
+// reflect mode changes
+modeRadios.forEach(r => r.addEventListener('change', () => { selectedMode = getSelectedMode(); }));
 
 // --- Navigation ------------------------------------------------------------
 function show(view) {
@@ -363,7 +365,7 @@ function renderHome() {
 startBtn.addEventListener('click', () => {
   const id = procedureSelect.value;
   selected = procedures.find(p => p.id === id) || procedures[0];
-  for (const r of modeRadios) if (r.checked) selectedMode = r.value;
+  selectedMode = getSelectedMode();
   startGame();
 });
 
@@ -405,6 +407,11 @@ function startGame() {
   feedback.textContent = '';
   scoreBox.textContent = 'Skor: 0';
   show(viewGame);
+}
+
+function getSelectedMode() {
+  const r = document.querySelector('input[name="mode"]:checked');
+  return r ? r.value : 'order';
 }
 
 function renderStepList() {
@@ -461,10 +468,10 @@ function renderMatch() {
   const totalSteps = selected.steps.length;
 
   // palette chips
-  items.forEach(it => {
+      items.forEach(it => {
     const chip = document.createElement('div');
-    chip.className = `chip ${it.type}`;
-    chip.textContent = it.label;
+        chip.className = `chip ${it.type}`;
+        chip.textContent = `${it.emoji ? it.emoji + ' ' : ''}${it.label}`;
     chip.dataset.itemId = it.id;
     chip.dataset.type = it.type;
     matchPalette.appendChild(chip);
@@ -600,8 +607,10 @@ function finalizeCheck(correct, total) {
   if (correct === total && total > 0) {
     feedback.textContent = 'Mantap! Semua benar.';
     fireConfetti();
+    playSuccess();
   } else {
     feedback.textContent = 'Ada yang belum pas. Coba sesuaikan lagi.';
+    playError();
   }
   logResult({ timestamp: Date.now(), procedureId: selected.id, procedureTitle: selected.title, total, correct });
 }
@@ -803,4 +812,38 @@ function fireConfetti() {
       confetti({ particleCount: 120, spread: 70, origin: { y: 0.6 } });
     }
   } catch (_) { /* no-op */ }
+}
+
+// --- Sound (Web Audio, no extra files) ------------------------------------
+let audioCtx;
+function getAudioCtx() {
+  if (!audioCtx) {
+    const Ctx = window.AudioContext || window.webkitAudioContext;
+    if (Ctx) audioCtx = new Ctx();
+  }
+  return audioCtx;
+}
+
+function playTone(freq = 440, duration = 0.15, type = 'sine', gain = 0.05) {
+  const ctx = getAudioCtx();
+  if (!ctx) return;
+  const osc = ctx.createOscillator();
+  const g = ctx.createGain();
+  osc.type = type;
+  osc.frequency.value = freq;
+  g.gain.value = gain;
+  osc.connect(g).connect(ctx.destination);
+  osc.start();
+  setTimeout(() => { osc.stop(); }, duration * 1000);
+}
+
+function playSuccess() {
+  // simple two-note chime
+  playTone(660, 0.12, 'sine', 0.05);
+  setTimeout(() => playTone(880, 0.12, 'sine', 0.05), 120);
+}
+
+function playError() {
+  // short low buzz
+  playTone(200, 0.12, 'square', 0.04);
 }

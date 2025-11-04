@@ -22,11 +22,22 @@ Serverless, statis, dan offline-friendly. Cocok untuk microteaching.
 - SortableJS — drag-and-drop urutan
 - Interact.js — dropzone (Matching)
 - canvas-confetti — efek kemenangan
+ - Web Audio API — bunyi sukses/gagal tanpa file (built-in)
 
 Opsional untuk tahap berikutnya: Fuse.js (pencarian), Howler.js (audio), Tippy.js (tooltip), Workbox (PWA).
 
 ## Catatan Offline
 Aplikasi tidak memerlukan server. Untuk akses file langsung, sebagian browser membatasi fitur tertentu jika dibuka via `file://`. Jika ada isu, gunakan ekstensi Live Server atau jalankan HTTP sederhana.
+
+### Gambar di GitHub Pages (tanpa DB)
+- Letakkan ikon/gambar di folder `assets/` (contoh: `assets/icons/paper.svg`). GitHub Pages akan menyajikannya sebagai file statis.
+- Upload otomatis ke repo dari aplikasi web (tanpa server) tidak memungkinkan tanpa autentikasi ke GitHub. Untuk kelas:
+	- Simpan gambar unggahan guru sebagai Data URL (lokal) dan ikutkan di ekspor JSON (bertahan di perangkat yang sama), atau
+	- Unggah gambar ke repo secara manual via GitHub dan referensikan path relatifnya.
+
+### Suara & Tooltips
+- Suara: menggunakan Web Audio API (tanpa file). Jika ingin, kita bisa ganti ke file audio bebas lisensi kemudian.
+- Tooltips: penjelasan singkat saat hover (contoh sudah ditambahkan via atribut `title`) agar guru/siswa paham fungsi tombol/mode.
 
 ## Lisensi
 Materi pembelajaran buatan sendiri. Perpustakaan pihak ketiga mengikuti lisensi masing-masing.

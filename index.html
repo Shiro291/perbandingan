@@ -26,10 +26,10 @@
       <h2>Pilih Prosedur</h2>
       <div class="row">
         <label>Mode:</label>
-        <div class="modes">
-          <label><input type="radio" name="mode" value="order" checked> Urutkan</label>
-          <label><input type="radio" name="mode" value="match"> Matching</label>
-          <label><input type="radio" name="mode" value="fillin"> Isian</label>
+        <div class="modes" title="Pilih jenis latihan: Urutkan langkah, Matching alat/bahan, atau Isian teks.">
+          <label title="Seret langkah ke urutan yang benar"><input type="radio" name="mode" value="order" checked> Urutkan</label>
+          <label title="Seret chip alat/bahan ke langkah yang sesuai"><input type="radio" name="mode" value="match"> Matching</label>
+          <label title="Isi bagian teks yang kosong"><input type="radio" name="mode" value="fillin"> Isian</label>
         </div>
       </div>
       <div class="row">
@@ -37,7 +37,7 @@
         <select id="procedureSelect"></select>
       </div>
       <div class="actions">
-        <button id="startBtn" class="primary">Mulai</button>
+        <button id="startBtn" class="primary" title="Mulai latihan dengan prosedur dan mode yang dipilih">Mulai</button>
       </div>
       <p class="hint">Tip: Tambahkan prosedur Anda sendiri di "Mode Guru".</p>
     </section>
@@ -63,9 +63,9 @@
       </div>
 
       <div class="actions">
-        <button id="checkBtn" class="primary">Cek</button>
-        <button id="reshuffleBtn" class="secondary">Acak Ulang</button>
-        <button id="backHomeBtn" class="link">Kembali</button>
+        <button id="checkBtn" class="primary" title="Periksa jawaban">Cek</button>
+        <button id="reshuffleBtn" class="secondary" title="Acak ulang / bangun ulang tampilan">Acak Ulang</button>
+        <button id="backHomeBtn" class="link" title="Kembali ke Beranda">Kembali</button>
       </div>
 
       <div id="feedback" class="feedback"></div>
