@@ -389,7 +389,15 @@ function attachGameHandlers() {
 
 function startGame() {
   if (!selected) return;
-  gameTitle.textContent = selected.title;
+  // show title + mode badge
+  gameTitle.innerHTML = '';
+  const t = document.createElement('span');
+  t.textContent = selected.title;
+  const badge = document.createElement('span');
+  badge.className = 'mode-badge';
+  badge.textContent = selectedMode === 'order' ? 'Urutkan' : (selectedMode === 'match' ? 'Matching' : 'Isian');
+  gameTitle.appendChild(t);
+  gameTitle.appendChild(badge);
   stepList.classList.add('hidden');
   matchArea.classList.add('hidden');
   fillinArea.classList.add('hidden');
@@ -398,15 +406,38 @@ function startGame() {
     renderStepList();
     stepList.classList.remove('hidden');
   } else if (selectedMode === 'match') {
-    renderMatch();
-    matchArea.classList.remove('hidden');
+    const hasCfg = selected.match && Array.isArray(selected.match.items) && selected.match.items.length > 0;
+    if (hasCfg) {
+      renderMatch();
+      matchArea.classList.remove('hidden');
+    } else {
+      // fallback UX
+      renderEmptyNote('Mode Matching tidak tersedia untuk prosedur ini. Beralih ke Urutkan.');
+      currentOrder = shuffle([...selected.steps]);
+      renderStepList();
+      stepList.classList.remove('hidden');
+      selectedMode = 'order';
+    }
   } else if (selectedMode === 'fillin') {
-    renderFillin();
-    fillinArea.classList.remove('hidden');
+    const hasText = selected.fillin && typeof selected.fillin.text === 'string' && selected.fillin.text.includes('[[');
+    if (hasText) {
+      renderFillin();
+      fillinArea.classList.remove('hidden');
+    } else {
+      renderEmptyNote('Mode Isian tidak tersedia untuk prosedur ini. Beralih ke Urutkan.');
+      currentOrder = shuffle([...selected.steps]);
+      renderStepList();
+      stepList.classList.remove('hidden');
+      selectedMode = 'order';
+    }
   }
   feedback.textContent = '';
   scoreBox.textContent = 'Skor: 0';
   show(viewGame);
+}
+
+function renderEmptyNote(msg) {
+  feedback.innerHTML = `<span class="empty-note">${escapeHtml(msg)}</span>`;
 }
 
 function getSelectedMode() {

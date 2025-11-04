@@ -44,6 +44,7 @@ select, input[type="text"], textarea { border: 1px solid #cfd3df; border-radius:
 .game-header { display: flex; justify-content: space-between; align-items: center; }
 #gameTitle { margin: 0; }
 #scoreBox { font-weight: 600; }
+.mode-badge { background: #f1f5f9; color: #0f172a; border: 1px solid #e2e8f0; border-radius: 999px; padding: 4px 10px; font-size: 12px; margin-left: 8px; }
 
 .steps-list { list-style: decimal; padding-left: 24px; margin: 14px 0; }
 .steps-list li {
@@ -85,6 +86,7 @@ select, input[type="text"], textarea { border: 1px solid #cfd3df; border-radius:
 .dropzone-active { border-color: #2563eb !important; box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
 .drop-ok { border-color: #22c55e !important; background: #ecfdf5; }
 .drop-bad { border-color: #ef4444 !important; background: #fef2f2; }
+.empty-note { color: #475569; background: #f8fafc; border: 1px solid #e2e8f0; padding: 8px 10px; border-radius: 8px; }
 
 /* Fill-in mode */
 .fillin-text { font-size: 16px; line-height: 1.6; }
