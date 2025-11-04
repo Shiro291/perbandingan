@@ -39,7 +39,185 @@ const builtinProcedures = [
       'Sikat gigi bagian luar dan dalam',
       'Sikat gigi bagian atas (permukaan kunyah)',
       'Berkumur hingga bersih'
-    ]
+    ],
+    match: {
+      items: [
+        { id: 'air', label: 'Air', type: 'bahan' },
+        { id: 'pasta', label: 'Pasta gigi', type: 'bahan' },
+        { id: 'sikat', label: 'Sikat gigi', type: 'alat' },
+        { id: 'gelas', label: 'Gelas kumur', type: 'alat' }
+      ],
+      pairs: [
+        { itemId: 'sikat', stepIndex: 1 },
+        { itemId: 'pasta', stepIndex: 1 },
+        { itemId: 'air', stepIndex: 4 },
+        { itemId: 'gelas', stepIndex: 4 }
+      ]
+    },
+    fillin: {
+      text: 'Basahi [[alat]] lalu beri [[bahan]] secukupnya, gosok gigi hingga bersih lalu [[aksi]].',
+      answers: {
+        alat: ['sikat', 'sikat gigi'],
+        bahan: ['pasta', 'pasta gigi'],
+        aksi: ['berkumur', 'kumur']
+      },
+      tolerance: 1
+    }
+  },
+  {
+    id: 'pesawat-kertas',
+    title: 'Menyusun Pesawat Kertas',
+    steps: [
+      'Lipat kertas menjadi dua memanjang',
+      'Buka kembali dan lipat sudut atas ke garis tengah',
+      'Lipat lagi kedua sisi ke garis tengah',
+      'Lipat sepanjang garis tengah menutup sayap',
+      'Lipat sayap ke bawah di kedua sisi',
+      'Rapikan dan terbangkan'
+    ],
+    match: {
+      items: [
+        { id: 'kertas', label: 'Kertas A4', type: 'bahan' }
+      ],
+      pairs: [ { itemId: 'kertas', stepIndex: 0 } ]
+    },
+    fillin: {
+      text: 'Gunakan [[bahan]] dan lipat menjadi [[jumlah]] bagian sayap.',
+      answers: { bahan: ['kertas', 'kertas a4'], jumlah: ['2', 'dua'] },
+      tolerance: 1
+    }
+  },
+  {
+    id: 'mencuci-tangan',
+    title: 'Mencuci Tangan yang Benar',
+    steps: [
+      'Basahi tangan dengan air',
+      'Gunakan sabun dan gosok telapak tangan',
+      'Gosok punggung tangan dan sela-sela jari',
+      'Gosok kuku di telapak tangan',
+      'Bilas hingga bersih',
+      'Keringkan dengan tisu/handuk'
+    ],
+    match: {
+      items: [
+        { id: 'air2', label: 'Air', type: 'bahan' },
+        { id: 'sabun', label: 'Sabun', type: 'bahan' },
+        { id: 'tisu', label: 'Tisu', type: 'alat' }
+      ],
+      pairs: [
+        { itemId: 'air2', stepIndex: 0 },
+        { itemId: 'sabun', stepIndex: 1 },
+        { itemId: 'tisu', stepIndex: 5 }
+      ]
+    },
+    fillin: {
+      text: 'Gosok tangan minimal [[durasi]] detik sebelum dibilas.',
+      answers: { durasi: ['20', 'dua puluh'] },
+      tolerance: 1
+    }
+  },
+  {
+    id: 'menyalakan-komputer',
+    title: 'Menyalakan Komputer dengan Aman',
+    steps: [
+      'Pastikan kabel daya terpasang',
+      'Tekan tombol power pada CPU/laptop',
+      'Tunggu sistem menyala',
+      'Masuk ke sistem dengan akun',
+      'Siap digunakan'
+    ],
+    match: {
+      items: [
+        { id: 'kabel', label: 'Kabel daya', type: 'alat' },
+        { id: 'mouse', label: 'Mouse', type: 'alat' }
+      ],
+      pairs: [ { itemId: 'kabel', stepIndex: 0 } ]
+    },
+    fillin: {
+      text: 'Tekan tombol [[nama]] untuk menyalakan perangkat.',
+      answers: { nama: ['power'] },
+      tolerance: 1
+    }
+  },
+  {
+    id: 'email-formal',
+    title: 'Mengirim Email Formal Sederhana',
+    steps: [
+      'Buka aplikasi email',
+      'Klik Tulis/Compose',
+      'Isi alamat penerima',
+      'Tulis subjek yang jelas',
+      'Tulis isi pesan dengan salam dan penutup',
+      'Kirim'
+    ],
+    fillin: {
+      text: 'Gunakan bahasa [[gaya]] dan tulis [[bagian]] yang jelas.',
+      answers: { gaya: ['formal', 'baku'], bagian: ['subjek', 'subject'] },
+      tolerance: 2
+    }
+  },
+  {
+    id: 'gunung-berapi-mini',
+    title: 'Eksperimen Gunung Berapi Mini',
+    steps: [
+      'Siapkan botol kecil dan nampan',
+      'Masukkan soda kue ke botol',
+      'Campur cuka dengan pewarna makanan',
+      'Tuang campuran cuka ke botol',
+      'Amati reaksi'
+    ],
+    match: {
+      items: [
+        { id: 'soda', label: 'Soda kue', type: 'bahan' },
+        { id: 'cuka', label: 'Cuka', type: 'bahan' },
+        { id: 'pewarna', label: 'Pewarna', type: 'bahan' },
+        { id: 'botol', label: 'Botol kecil', type: 'alat' }
+      ],
+      pairs: [
+        { itemId: 'botol', stepIndex: 0 },
+        { itemId: 'soda', stepIndex: 1 },
+        { itemId: 'cuka', stepIndex: 3 },
+        { itemId: 'pewarna', stepIndex: 2 }
+      ]
+    }
+  },
+  {
+    id: 'menyapu-lantai',
+    title: 'Menyapu Lantai',
+    steps: [
+      'Siapkan sapu dan pengki',
+      'Sapu dari sudut ke arah tengah',
+      'Kumpulkan kotoran dengan pengki',
+      'Buang ke tempat sampah'
+    ],
+    match: {
+      items: [
+        { id: 'sapu', label: 'Sapu', type: 'alat' },
+        { id: 'pengki', label: 'Pengki', type: 'alat' },
+        { id: 'tempat', label: 'Tempat sampah', type: 'alat' }
+      ],
+      pairs: [
+        { itemId: 'sapu', stepIndex: 1 },
+        { itemId: 'pengki', stepIndex: 2 },
+        { itemId: 'tempat', stepIndex: 3 }
+      ]
+    }
+  },
+  {
+    id: 'folder-file',
+    title: 'Membuat Folder dan Menyalin File',
+    steps: [
+      'Buka File Explorer',
+      'Klik kanan dan pilih Folder Baru',
+      'Beri nama folder',
+      'Pilih file sumber',
+      'Salin dan tempel ke folder baru'
+    ],
+    fillin: {
+      text: 'Klik [[menu]] untuk membuat folder baru.',
+      answers: { menu: ['kanan', 'klik kanan', 'right click'] },
+      tolerance: 2
+    }
   }
 ];
 
@@ -111,8 +289,10 @@ function csvEscape(s) {
 // --- UI State --------------------------------------------------------------
 let procedures = loadProcedures();
 let selected = null; // selected procedure object
+let selectedMode = 'order'; // 'order' | 'match' | 'fillin'
 let currentOrder = []; // current shuffled order (array of strings)
 let sortable = null;
+let matchAssignments = new Map(); // stepIndex -> itemId[]
 
 // --- DOM Refs --------------------------------------------------------------
 const viewHome = document.getElementById('viewHome');
@@ -123,6 +303,7 @@ const navHome = document.getElementById('navHome');
 const navEditor = document.getElementById('navEditor');
 
 const procedureSelect = document.getElementById('procedureSelect');
+const modeRadios = document.querySelectorAll('input[name="mode"]');
 const startBtn = document.getElementById('startBtn');
 
 const gameTitle = document.getElementById('gameTitle');
@@ -132,6 +313,11 @@ const checkBtn = document.getElementById('checkBtn');
 const reshuffleBtn = document.getElementById('reshuffleBtn');
 const backHomeBtn = document.getElementById('backHomeBtn');
 const feedback = document.getElementById('feedback');
+const matchArea = document.getElementById('matchArea');
+const matchPalette = document.getElementById('matchPalette');
+const matchSteps = document.getElementById('matchSteps');
+const fillinArea = document.getElementById('fillinArea');
+const fillinText = document.getElementById('fillinText');
 
 const procTitle = document.getElementById('procTitle');
 const procSteps = document.getElementById('procSteps');
@@ -177,6 +363,7 @@ function renderHome() {
 startBtn.addEventListener('click', () => {
   const id = procedureSelect.value;
   selected = procedures.find(p => p.id === id) || procedures[0];
+  for (const r of modeRadios) if (r.checked) selectedMode = r.value;
   startGame();
 });
 
@@ -184,8 +371,14 @@ startBtn.addEventListener('click', () => {
 function attachGameHandlers() {
   checkBtn.addEventListener('click', onCheck);
   reshuffleBtn.addEventListener('click', () => {
-    currentOrder = shuffle([...selected.steps]);
-    renderStepList();
+    if (selectedMode === 'order') {
+      currentOrder = shuffle([...selected.steps]);
+      renderStepList();
+    } else if (selectedMode === 'match') {
+      renderMatch();
+    } else if (selectedMode === 'fillin') {
+      renderFillin();
+    }
     feedback.textContent = '';
     scoreBox.textContent = 'Skor: 0';
   });
@@ -195,8 +388,20 @@ function attachGameHandlers() {
 function startGame() {
   if (!selected) return;
   gameTitle.textContent = selected.title;
-  currentOrder = shuffle([...selected.steps]);
-  renderStepList();
+  stepList.classList.add('hidden');
+  matchArea.classList.add('hidden');
+  fillinArea.classList.add('hidden');
+  if (selectedMode === 'order') {
+    currentOrder = shuffle([...selected.steps]);
+    renderStepList();
+    stepList.classList.remove('hidden');
+  } else if (selectedMode === 'match') {
+    renderMatch();
+    matchArea.classList.remove('hidden');
+  } else if (selectedMode === 'fillin') {
+    renderFillin();
+    fillinArea.classList.remove('hidden');
+  }
   feedback.textContent = '';
   scoreBox.textContent = 'Skor: 0';
   show(viewGame);
@@ -225,6 +430,12 @@ function renderStepList() {
 }
 
 function onCheck() {
+  if (selectedMode === 'order') return onCheckOrder();
+  if (selectedMode === 'match') return onCheckMatch();
+  if (selectedMode === 'fillin') return onCheckFillin();
+}
+
+function onCheckOrder() {
   const items = [...stepList.querySelectorAll('li')];
   const current = items.map(li => li.querySelector('.text').textContent);
   let correct = 0;
@@ -232,28 +443,167 @@ function onCheck() {
     const expected = normalize(selected.steps[idx]);
     const got = normalize(current[idx]);
     li.classList.remove('correct','wrong');
-    if (expected === got) {
-      li.classList.add('correct');
-      correct++;
-    } else {
-      li.classList.add('wrong');
-    }
+    if (expected === got) { li.classList.add('correct'); correct++; }
+    else { li.classList.add('wrong'); }
   });
   scoreBox.textContent = `Skor: ${correct}/${selected.steps.length}`;
-  if (correct === selected.steps.length) {
+  finalizeCheck(correct, selected.steps.length);
+}
+
+// --- Matching mode --------------------------------------------------------
+function renderMatch() {
+  // reset
+  matchAssignments = new Map();
+  matchPalette.innerHTML = '';
+  matchSteps.innerHTML = '';
+  const cfg = selected.match || { items: [], pairs: [] };
+  const items = shuffle([...(cfg.items || [])]);
+  const totalSteps = selected.steps.length;
+
+  // palette chips
+  items.forEach(it => {
+    const chip = document.createElement('div');
+    chip.className = `chip ${it.type}`;
+    chip.textContent = it.label;
+    chip.dataset.itemId = it.id;
+    chip.dataset.type = it.type;
+    matchPalette.appendChild(chip);
+  });
+
+  // steps as dropzones
+  for (let i = 0; i < totalSteps; i++) {
+    const box = document.createElement('div');
+    box.className = 'dropstep';
+    box.dataset.stepIndex = String(i);
+    const title = document.createElement('span');
+    title.className = 'title';
+    title.textContent = `${i+1}. ${selected.steps[i]}`;
+    const slot = document.createElement('div');
+    slot.className = 'slot';
+    box.appendChild(title);
+    box.appendChild(slot);
+    matchSteps.appendChild(box);
+  }
+
+  // Interact.js setup
+  if (window.interact) {
+    interact('.chip').draggable({
+      inertia: true,
+      autoScroll: true,
+      listeners: {
+        move (event) {
+          const target = event.target;
+          const x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx;
+          const y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+          target.style.transform = `translate(${x}px, ${y}px)`;
+          target.setAttribute('data-x', x);
+          target.setAttribute('data-y', y);
+        },
+        end (event) {
+          // If not dropped, snap back
+          if (!event.dropzone) {
+            event.target.style.transform = 'translate(0px, 0px)';
+            event.target.removeAttribute('data-x');
+            event.target.removeAttribute('data-y');
+          }
+        }
+      }
+    });
+
+    interact('.dropstep').dropzone({
+      accept: '.chip',
+      overlap: 0.3,
+      ondragenter (event) { event.target.classList.add('dropzone-active'); },
+      ondragleave (event) { event.target.classList.remove('dropzone-active'); },
+      ondrop (event) {
+        const stepIndex = Number(event.target.dataset.stepIndex);
+        const chip = event.relatedTarget;
+        // move chip visually into slot
+        chip.style.transform = 'translate(0px, 0px)';
+        chip.removeAttribute('data-x');
+        chip.removeAttribute('data-y');
+        event.target.querySelector('.slot').appendChild(chip);
+        // record assignment (allow multiple items per step)
+        const prev = matchAssignments.get(stepIndex) || [];
+        const id = chip.dataset.itemId;
+        if (!prev.includes(id)) prev.push(id);
+        matchAssignments.set(stepIndex, prev);
+      },
+      ondropdeactivate (event) { event.target.classList.remove('dropzone-active'); }
+    });
+  }
+}
+
+function onCheckMatch() {
+  const cfg = selected.match || { items: [], pairs: [] };
+  const expectedPairs = cfg.pairs || [];
+  let correct = 0;
+  // Build map stepIndex -> expected itemIds
+  const expectedMap = new Map();
+  expectedPairs.forEach(p => {
+    const arr = expectedMap.get(p.stepIndex) || []; arr.push(p.itemId); expectedMap.set(p.stepIndex, arr);
+  });
+  // compare assignments
+  for (let i = 0; i < selected.steps.length; i++) {
+    const box = matchSteps.querySelector(`.dropstep[data-step-index="${i}"]`);
+    box.classList.remove('drop-ok','drop-bad');
+    const expected = (expectedMap.get(i) || []).sort();
+    const got = (matchAssignments.get(i) || []).slice().sort();
+    if (expected.length && arraysEqual(expected, got)) {
+      correct++;
+      box.classList.add('drop-ok');
+    } else if (expected.length) {
+      box.classList.add('drop-bad');
+    }
+  }
+  const totalConsidered = expectedMap.size; // steps that have expected items
+  scoreBox.textContent = `Skor: ${correct}/${totalConsidered || selected.steps.length}`;
+  finalizeCheck(correct, totalConsidered || selected.steps.length);
+}
+
+// --- Fill-in mode ---------------------------------------------------------
+function renderFillin() {
+  fillinText.innerHTML = '';
+  const cfg = selected.fillin || { text: '', answers: {}, tolerance: 1 };
+  const html = (cfg.text || '').replace(/\[\[(.+?)\]\]/g, (m, key) => {
+    const k = key.trim();
+    return `<input type="text" data-key="${escapeHtml(k)}" placeholder="…" />`;
+  });
+  const p = document.createElement('p');
+  p.className = 'fillin-text';
+  p.innerHTML = html;
+  fillinText.appendChild(p);
+}
+
+function onCheckFillin() {
+  const cfg = selected.fillin || { text: '', answers: {}, tolerance: 1 };
+  const inputs = [...fillinText.querySelectorAll('input[data-key]')];
+  let correct = 0;
+  inputs.forEach(inp => {
+    const key = inp.dataset.key;
+    const acceptable = (cfg.answers?.[key] || []).map(normalize);
+    const tol = Number(cfg.tolerance || 1);
+    const val = normalize(inp.value || '');
+    inp.classList.remove('correct','wrong');
+    if (acceptable.length === 0) { return; }
+    if (acceptable.includes(val)) { inp.classList.add('correct'); correct++; return; }
+    // tolerant
+    const isClose = acceptable.some(ans => levenshtein(ans, val) <= tol);
+    if (isClose) { inp.classList.add('correct'); correct++; }
+    else inp.classList.add('wrong');
+  });
+  scoreBox.textContent = `Skor: ${correct}/${inputs.length || 1}`;
+  finalizeCheck(correct, inputs.length || 1);
+}
+
+function finalizeCheck(correct, total) {
+  if (correct === total && total > 0) {
     feedback.textContent = 'Mantap! Semua benar.';
     fireConfetti();
   } else {
     feedback.textContent = 'Ada yang belum pas. Coba sesuaikan lagi.';
   }
-  // log result
-  logResult({
-    timestamp: Date.now(),
-    procedureId: selected.id,
-    procedureTitle: selected.title,
-    total: selected.steps.length,
-    correct
-  });
+  logResult({ timestamp: Date.now(), procedureId: selected.id, procedureTitle: selected.title, total, correct });
 }
 
 // --- Editor ----------------------------------------------------------------
@@ -402,6 +752,40 @@ function hasDuplicate(arr) {
 
 function slugify(s) {
   return String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+}
+
+function arraysEqual(a, b) {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i++) if (a[i] !== b[i]) return false;
+  return true;
+}
+
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+// Small Levenshtein implementation
+function levenshtein(a, b) {
+  if (a === b) return 0;
+  const al = a.length, bl = b.length;
+  if (al === 0) return bl; if (bl === 0) return al;
+  const dp = new Array(bl + 1);
+  for (let j = 0; j <= bl; j++) dp[j] = j;
+  for (let i = 1; i <= al; i++) {
+    let prev = i - 1; // dp[i-1][j-1]
+    dp[0] = i;
+    for (let j = 1; j <= bl; j++) {
+      const temp = dp[j];
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      dp[j] = Math.min(
+        dp[j] + 1,      // deletion
+        dp[j - 1] + 1,  // insertion
+        prev + cost     // substitution
+      );
+      prev = temp;
+    }
+  }
+  return dp[bl];
 }
 
 function fireConfetti() {

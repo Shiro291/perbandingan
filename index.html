@@ -9,6 +9,8 @@
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
   <!-- canvas-confetti -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <!-- Interact.js (for Matching mode) -->
+  <script src="https://cdn.jsdelivr.net/npm/@interactjs/interactjs/dist/interact.min.js"></script>
 </head>
 <body>
   <header class="app-header">
@@ -22,6 +24,14 @@
   <main id="viewHome" class="view">
     <section class="card">
       <h2>Pilih Prosedur</h2>
+      <div class="row">
+        <label>Mode:</label>
+        <div class="modes">
+          <label><input type="radio" name="mode" value="order" checked> Urutkan</label>
+          <label><input type="radio" name="mode" value="match"> Matching</label>
+          <label><input type="radio" name="mode" value="fillin"> Isian</label>
+        </div>
+      </div>
       <div class="row">
         <label for="procedureSelect">Prosedur:</label>
         <select id="procedureSelect"></select>
@@ -42,7 +52,15 @@
         </div>
       </div>
 
+      <!-- Container switches based on mode -->
       <ol id="stepList" class="steps-list"></ol>
+      <div id="matchArea" class="match-area hidden">
+        <div class="match-palette" id="matchPalette"></div>
+        <div class="match-steps" id="matchSteps"></div>
+      </div>
+      <div id="fillinArea" class="fillin-area hidden">
+        <div id="fillinText" class="fillin-text"></div>
+      </div>
 
       <div class="actions">
         <button id="checkBtn" class="primary">Cek</button>
